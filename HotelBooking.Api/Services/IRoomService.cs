@@ -4,7 +4,9 @@ namespace HotelBooking.Api.Services;
 
 public interface IRoomService
 { 
-    bool AddRoom(Room room);
-    Room GetRoomById(int id);
-    List<Room> GetRooms();
+    Task<bool> AddRoom(Room room);
+    Task<Room> GetRoomById(int id);
+    Task<List<Room>> GetRooms();
+    Task<bool> UpdateRoomPrice(int id, decimal newPrice);
+    Task<bool> DeleteRoom(int id);
 }

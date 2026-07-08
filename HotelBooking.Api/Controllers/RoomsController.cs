@@ -11,24 +11,24 @@ public class RoomsController(IRoomService roomService) : ControllerBase
     private readonly IRoomService roomService = roomService;
 
     [HttpGet]
-    public List<Room> GetRooms()
+    public async Task<List<Room>> GetRooms()
     {
-        return roomService.GetRooms();
+        return await roomService.GetRooms();
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetRoom(int id)
+    public async Task<IActionResult> GetRoom(int id)
     {
-        var room = roomService.GetRoomById(id);
+        var room = await roomService.GetRoomById(id);
         if (room != null)
             return Ok(room);
         return NotFound();
     }
 
     [HttpPost]
-    public ActionResult CreateRoom(Room room)
+    public async Task<ActionResult> CreateRoom(Room room)
     {
-        if (!roomService.AddRoom(room))
+        if (! await roomService.AddRoom(room))
             return BadRequest();
 
         return Ok();
