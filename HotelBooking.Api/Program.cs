@@ -1,4 +1,5 @@
 using HotelBooking.Api.Data;
+using HotelBooking.Api.Repositories;
 using HotelBooking.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IRoomService, RoomService>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 
 var app = builder.Build();
 

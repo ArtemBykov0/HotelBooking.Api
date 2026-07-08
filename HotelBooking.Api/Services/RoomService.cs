@@ -1,16 +1,16 @@
 using HotelBooking.Api.Data;
 using HotelBooking.Api.Models;
+using HotelBooking.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Api.Services;
 
 public class RoomService : IRoomService
 {
-    private readonly HotelDbContext context;
-    
-    public RoomService(HotelDbContext context)
+    private readonly IRoomRepository repository;    
+    public RoomService(IRoomRepository repository)
     {
-        this.context = context;
+        this.repository = repository;
     }
 
     public async Task<bool> AddRoom(Room room)
@@ -18,21 +18,18 @@ public class RoomService : IRoomService
         if (room.Price <= 0)
             return false;
 
-        context.Rooms.Add(room);
-
-        await context.SaveChangesAsync();
-
+        await repository.AddAsync(room);
         return true;
     }
 
-    public Task<Room> GetRoomById(int id)
+    public async Task<Room> GetRoomById(int id)
     {
-        return context.Rooms.FirstOrDefaultAsync(room => room.Id == id);
+        return await repository.GetByIdAsync(id);
     }
 
     public async Task<List<Room>> GetRooms()
     {
-        return await context.Rooms.ToListAsync();
+        return await repository.GetAllAsync();
     }
 
     public async Task<bool> UpdateRoomPrice(int id, decimal newPrice)
@@ -44,27 +41,28 @@ public class RoomService : IRoomService
 
         room.Price = newPrice;
 
-        await context.SaveChangesAsync();
+        await repository.UpdateAsync();
 
         return true;
     }
 
     public async Task<bool> DeleteRoom(int id)
     {
-        var room = await GetRoomById(id);
+        var room = await repository.GetByIdAsync(id);
 
         if (room == null)
             return false;
 
-        context.Rooms.Remove(room);
-
-        await context.SaveChangesAsync();
+        await repository.DeleteAsync(room);
 
         return true;
     }
 
     public async Task<List<Room>> GetRoomsWithMinPrice(decimal minPrice)
     {
-        return await context.Rooms.Where(r => r.Price >= minPrice).ToListAsync();
+        var rooms = await repository.GetAllAsync();
+        return rooms
+            .Where(r => r.Price >= minPrice)
+            .ToList();
     }
 }
