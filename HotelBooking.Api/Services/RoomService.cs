@@ -1,7 +1,5 @@
-using HotelBooking.Api.Data;
 using HotelBooking.Api.Models;
 using HotelBooking.Api.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Api.Services;
 
@@ -22,7 +20,7 @@ public class RoomService : IRoomService
         return true;
     }
 
-    public async Task<Room> GetRoomById(int id)
+    public async Task<Room?> GetRoomById(int id)
     {
         return await repository.GetByIdAsync(id);
     }
@@ -34,7 +32,7 @@ public class RoomService : IRoomService
 
     public async Task<bool> UpdateRoomPrice(int id, decimal newPrice)
     {
-        var room = await GetRoomById(id);
+        var room = await repository.GetByIdAsync(id);
 
         if (room == null)
             return false;

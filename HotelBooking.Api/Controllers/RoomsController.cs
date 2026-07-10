@@ -1,3 +1,4 @@
+using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 using HotelBooking.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ public class RoomsController(IRoomService roomService) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateRoom(Room room)
+    public async Task<ActionResult> CreateRoom(CreateRoomDto dto)
     {
         if (! await roomService.AddRoom(room))
             return BadRequest();
