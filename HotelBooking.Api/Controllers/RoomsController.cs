@@ -29,8 +29,15 @@ public class RoomsController(IRoomService roomService) : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateRoom(CreateRoomDto dto)
     {
-        if (! await roomService.AddRoom(room))
-            return BadRequest();
+        var room = new Room()
+        {
+            Number = dto.Number,
+            Price = dto.Price,
+            Description = dto.Description,
+            RoomClass =  dto.RoomClass
+        };
+        
+        await roomService.AddRoom(room);
 
         return Ok();
     }
