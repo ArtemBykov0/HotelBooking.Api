@@ -16,10 +16,11 @@ public class RoomsController(
     private readonly IMapper mapper = mapper;
 
     [HttpGet]
-    public async Task<List<RoomResponseDto>> GetRooms()
+    public async Task<ActionResult<List<RoomResponseDto>>> GetRooms()
     {
         var rooms = await roomService.GetRooms();
-        return mapper.Map<List<RoomResponseDto>>(rooms);
+        var dto =  mapper.Map<List<RoomResponseDto>>(rooms);
+        return Ok(dto);
     }
 
     [HttpGet("{id}")]
