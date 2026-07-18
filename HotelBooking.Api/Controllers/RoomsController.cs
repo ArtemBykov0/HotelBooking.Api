@@ -1,3 +1,4 @@
+using AutoMapper;
 using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 using HotelBooking.Api.Services;
@@ -7,9 +8,12 @@ namespace HotelBooking.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RoomsController(IRoomService roomService) : ControllerBase
+public class RoomsController(
+    IRoomService roomService,
+    IMapper mapper) : ControllerBase
 {
     private readonly IRoomService roomService = roomService;
+    private readonly IMapper mapper = mapper;
 
     [HttpGet]
     public async Task<List<Room>> GetRooms()
@@ -29,14 +33,8 @@ public class RoomsController(IRoomService roomService) : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateRoom(CreateRoomDto dto)
     {
-        var room = new Room()
-        {
-            Number = dto.Number,
-            Price = dto.Price,
-            Description = dto.Description,
-            RoomClass =  dto.RoomClass
-        };
-        
+        var room = mapper.Map<Room>(dto);
+
         await roomService.AddRoom(room);
 
         return Ok();

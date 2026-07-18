@@ -1,4 +1,5 @@
 using HotelBooking.Api.Data;
+using HotelBooking.Api.Mappings;
 using HotelBooking.Api.Repositories;
 using HotelBooking.Api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddAutoMapper(typeof(RoomProfile));
 
 var app = builder.Build();
 
