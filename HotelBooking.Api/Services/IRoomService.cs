@@ -1,3 +1,4 @@
+using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 
 namespace HotelBooking.Api.Services;
@@ -9,4 +10,5 @@ public interface IRoomService
     Task<List<Room>> GetRooms();
     Task<bool> UpdateRoomPrice(int id, decimal newPrice);
     Task<bool> DeleteRoom(int id);
+    Task<bool> UpdateRoom(int id, UpdateRoomDto dto);
 }

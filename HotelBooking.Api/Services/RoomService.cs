@@ -1,3 +1,4 @@
+using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 using HotelBooking.Api.Repositories;
 
@@ -54,6 +55,11 @@ public class RoomService : IRoomService
         await repository.DeleteAsync(room);
 
         return true;
+    }
+
+    public Task<bool> UpdateRoom(int id, UpdateRoomDto dto)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<List<Room>> GetRoomsWithMinPrice(decimal minPrice)
