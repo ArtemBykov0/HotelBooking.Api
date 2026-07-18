@@ -49,4 +49,15 @@ public class RoomsController(
             mapper.Map<RoomResponseDto>(room)
             );
     }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateRoom(int id, UpdateRoomDto dto)
+    {
+        var success = await roomService.UpdateRoom(id, dto);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
+    }
 }

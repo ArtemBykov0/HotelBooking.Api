@@ -57,9 +57,21 @@ public class RoomService : IRoomService
         return true;
     }
 
-    public Task<bool> UpdateRoom(int id, UpdateRoomDto dto)
+    public async Task<bool> UpdateRoom(int id, UpdateRoomDto dto)
     {
-        throw new NotImplementedException();
+        var room = await repository.GetByIdAsync(id);
+
+        if (room == null)
+            return false;
+
+        room.Number = dto.Number;
+        room.Price = dto.Price;
+        room.Description = dto.Description;
+        room.RoomClass = dto.RoomClass;
+
+        await repository.UpdateAsync();
+
+        return true;
     }
 
     public async Task<List<Room>> GetRoomsWithMinPrice(decimal minPrice)
