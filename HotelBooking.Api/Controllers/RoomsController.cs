@@ -42,6 +42,10 @@ public class RoomsController(
 
         await roomService.AddRoom(room);
 
-        return Ok();
+        return CreatedAtAction(
+            nameof(GetRoom),
+            new { id = room.Id },
+            mapper.Map<RoomResponseDto>(room)
+            );
     }
 }
