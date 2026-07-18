@@ -9,5 +9,6 @@ public class RoomProfile : Profile
     public RoomProfile()
     {
         CreateMap<CreateRoomDto, Room>();
+        CreateMap<Room, RoomResponseDto>();
     }
 }
