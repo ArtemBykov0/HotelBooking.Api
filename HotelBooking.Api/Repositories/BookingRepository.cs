@@ -15,12 +15,16 @@ public class BookingRepository : IBookingRepository
 
     public async Task<List<Booking>> GetAllAsync()
     {
-        return await context.Bookings.ToListAsync();
+        return await context.Bookings
+            .Include(b => b.Room)
+            .ToListAsync();
     }
 
     public async Task<Booking?> GetByIdAsync(int id)
     {
-        return await context.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+        return await context.Bookings
+            .Include(b => b.Room)
+            .FirstOrDefaultAsync(b => b.Id == id);
     }
 
     public async Task AddAsync(Booking booking)
@@ -40,10 +44,11 @@ public class BookingRepository : IBookingRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task<bool> IsRoomBookedAsync(int roomId, DateTime checkIn, DateTime checkOut)
+    public async Task<bool> IsRoomBookedAsync(int roomId, DateTime checkIn, DateTime checkOut, int? excludeBookingId = null)
     {
         return await context.Bookings.AnyAsync(b =>
             b.RoomId == roomId &&
+            b.Id != excludeBookingId &&
             checkIn < b.CheckOut &&
             checkOut > b.CheckIn);
     }

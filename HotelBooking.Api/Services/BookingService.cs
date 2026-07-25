@@ -1,3 +1,4 @@
+using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 using HotelBooking.Api.Repositories;
 
@@ -52,5 +53,29 @@ public class BookingService : IBookingService
     public async Task<List<Booking>> GetRoomBookings(int roomId)
     {
         return await repository.GetRoomBookingsAsync(roomId);
+    }
+
+    public async Task<bool> UpdateBookingAsync(int id, UpdateBookingDto dto)
+    {
+        var booking = await repository.GetByIdAsync(id);
+
+        if (booking == null)
+            return false;
+
+        bool isBooked = await repository.IsRoomBookedAsync(
+            booking.RoomId,
+            dto.CheckIn,
+            dto.CheckOut,
+            booking.Id);
+
+        if (isBooked)
+            return false;
+
+        booking.CheckIn = dto.CheckIn;
+        booking.CheckOut = dto.CheckOut;
+
+        await repository.UpdateAsync();
+
+        return true;
     }
 }

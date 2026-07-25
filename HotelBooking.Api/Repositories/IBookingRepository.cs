@@ -14,7 +14,11 @@ public interface IBookingRepository
 
     Task UpdateAsync();
     
-    Task<bool> IsRoomBookedAsync(int roomId, DateTime checkIn, DateTime checkOut);
+    Task<bool> IsRoomBookedAsync(
+        int roomId,
+        DateTime checkIn,
+        DateTime checkOut,
+        int? excludeBookingId = null);
     
     Task<List<Booking>> GetRoomBookingsAsync(int roomId);
 }
