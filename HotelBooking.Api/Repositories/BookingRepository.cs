@@ -47,4 +47,11 @@ public class BookingRepository : IBookingRepository
             checkIn < b.CheckOut &&
             checkOut > b.CheckIn);
     }
+
+    public async Task<List<Booking>> GetRoomBookingsAsync(int roomId)
+    {
+        return await context.Bookings
+            .Where(b => b.RoomId == roomId)
+            .ToListAsync();
+    }
 }

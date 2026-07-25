@@ -48,4 +48,9 @@ public class BookingService : IBookingService
 
         return true;
     }
+    
+    public async Task<List<Booking>> GetRoomBookings(int roomId)
+    {
+        return await repository.GetRoomBookingsAsync(roomId);
+    }
 }

@@ -1,4 +1,4 @@
-namespace HotelBooking.Api.Models;
+using HotelBooking.Api.Models;
 
 public class Booking
 {
@@ -6,9 +6,9 @@ public class Booking
 
     public int RoomId { get; set; }
 
+    public Room Room { get; set; } = null!;
+
     public DateTime CheckIn { get; set; }
 
     public DateTime CheckOut { get; set; }
-
-    public string GuestName { get; set; } = string.Empty;
 }

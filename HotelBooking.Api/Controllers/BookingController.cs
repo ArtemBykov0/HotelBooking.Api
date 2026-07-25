@@ -42,4 +42,22 @@ public class BookingController(
 
         return NoContent();
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> CreateBooking(Booking booking)
+    {
+        var result = await bookingService.CreateBooking(booking);
+
+        if (!result)
+            return BadRequest("Комната уже занята.");
+
+        return Created();
+    }
+    
+    [HttpGet("room/{roomId}")]
+    public async Task<ActionResult<List<Booking>>> GetRoomBookings(int roomId)
+    {
+        var bookings = await bookingService.GetRoomBookings(roomId);
+        return Ok(bookings);
+    }
 }

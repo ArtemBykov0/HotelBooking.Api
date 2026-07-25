@@ -7,4 +7,5 @@ public class Room
     public decimal Price { get; set; }
     public string Description { get; set; }
     public string RoomClass { get; set; }
+    public List<Booking> Bookings { get; set; } = [];
 }

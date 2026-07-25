@@ -11,4 +11,6 @@ public interface IBookingService
     Task<List<Booking>> GetBookings();
 
     Task<bool> DeleteBooking(int id);
+    
+    Task<List<Booking>> GetRoomBookings(int roomId);
 }
