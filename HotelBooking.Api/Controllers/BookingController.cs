@@ -65,4 +65,17 @@ public class BookingController(
 
         return Ok(dto);
     }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBooking(
+        int id,
+        UpdateBookingDto dto)
+    {
+        bool updated = await bookingService.UpdateBookingAsync(id, dto);
+
+        if (!updated)
+            return BadRequest("Room is already booked or booking not found.");
+
+        return NoContent();
+    }
 }

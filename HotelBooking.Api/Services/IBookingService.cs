@@ -1,3 +1,4 @@
+using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 
 namespace HotelBooking.Api.Services;
@@ -13,4 +14,5 @@ public interface IBookingService
     Task<bool> DeleteBooking(int id);
     
     Task<List<Booking>> GetRoomBookings(int roomId);
+    Task<bool> UpdateBookingAsync(int id, UpdateBookingDto dto);
 }
