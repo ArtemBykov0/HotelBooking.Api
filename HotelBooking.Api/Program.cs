@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(typeof(RoomProfile));
 
 var app = builder.Build();
