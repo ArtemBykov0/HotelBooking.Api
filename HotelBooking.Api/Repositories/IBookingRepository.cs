@@ -13,4 +13,6 @@ public interface IBookingRepository
     Task DeleteAsync(Booking booking);
 
     Task UpdateAsync();
+    
+    Task<bool> IsRoomBookedAsync(int roomId, DateTime checkIn, DateTime checkOut);
 }

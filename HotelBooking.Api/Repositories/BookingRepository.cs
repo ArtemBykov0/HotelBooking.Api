@@ -39,4 +39,12 @@ public class BookingRepository : IBookingRepository
     {
         await context.SaveChangesAsync();
     }
+
+    public async Task<bool> IsRoomBookedAsync(int roomId, DateTime checkIn, DateTime checkOut)
+    {
+        return await context.Bookings.AnyAsync(b =>
+            b.RoomId == roomId &&
+            checkIn < b.CheckOut &&
+            checkOut > b.CheckIn);
+    }
 }

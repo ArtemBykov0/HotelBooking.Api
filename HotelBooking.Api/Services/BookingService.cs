@@ -11,10 +11,19 @@ public class BookingService : IBookingService
     {
         this.repository = repository;
     }
-
+    
     public async Task<bool> CreateBooking(Booking booking)
     {
+        var isBooked = await repository.IsRoomBookedAsync(
+            booking.RoomId,
+            booking.CheckIn,
+            booking.CheckOut);
+
+        if (isBooked)
+            return false;
+
         await repository.AddAsync(booking);
+
         return true;
     }
 
