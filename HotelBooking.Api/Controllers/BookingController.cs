@@ -1,4 +1,5 @@
 using AutoMapper;
+using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 using HotelBooking.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,9 @@ public class BookingController(
         if (booking == null)
             return NotFound();
 
-        return Ok(booking);
+        var dtos = mapper.Map<List<BookingResponseDto>>(booking);
+
+        return Ok(dtos);
     }
 
     [HttpDelete("{id}")]
@@ -58,6 +61,8 @@ public class BookingController(
     public async Task<ActionResult<List<Booking>>> GetRoomBookings(int roomId)
     {
         var bookings = await bookingService.GetRoomBookings(roomId);
-        return Ok(bookings);
+        var dto = mapper.Map<BookingResponseDto>(bookings);
+
+        return Ok(dto);
     }
 }
