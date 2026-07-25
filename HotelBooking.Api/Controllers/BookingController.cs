@@ -67,10 +67,13 @@ public class BookingController(
     }
     
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateBooking(
-        int id,
-        UpdateBookingDto dto)
+    public async Task<IActionResult> UpdateBooking(int id, UpdateBookingDto dto)
     {
+        var booking = await bookingService.GetBookingById(id);
+
+        if (booking == null)
+            return NotFound();
+        
         bool updated = await bookingService.UpdateBookingAsync(id, dto);
 
         if (!updated)
