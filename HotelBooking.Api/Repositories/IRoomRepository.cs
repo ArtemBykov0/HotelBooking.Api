@@ -20,4 +20,5 @@ public interface IRoomRepository
     Task<List<Room>> GetAvailableRoomsAsync(
         DateTime checkIn,
         DateTime checkOut);
+    Task<int> CountAsync();
 }

@@ -64,4 +64,9 @@ public class RoomRepository : IRoomRepository
                 checkOut > booking.CheckIn))
             .ToListAsync();
     }
+
+    public async Task<int> CountAsync()
+    {
+        return await context.Rooms.CountAsync();
+    }
 }

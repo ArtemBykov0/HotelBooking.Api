@@ -1,3 +1,4 @@
+using AutoMapper;
 using HotelBooking.Api.DTOs;
 using HotelBooking.Api.Models;
 using HotelBooking.Api.Repositories;
@@ -8,13 +9,15 @@ public class RoomService : IRoomService
 {
     private readonly IRoomRepository repository;    
     private readonly ILogger<RoomService> logger;
+    private readonly IMapper mapper;
     
     public RoomService(
         IRoomRepository repository,
-        ILogger<RoomService> logger)
+        ILogger<RoomService> logger, IMapper mapper)
     {
         this.repository = repository;
         this.logger = logger;
+        this.mapper = mapper;
     }
 
     public async Task<bool> AddRoom(Room room)
@@ -42,15 +45,27 @@ public class RoomService : IRoomService
         return await repository.GetByIdAsync(id);
     }
 
-    public async Task<List<Room>> GetRooms(
+    public async Task<PagedResponse<RoomResponseDto>> GetRooms(
         int page,
         int pageSize,
         CancellationToken cancellationToken)
     {
-        return await repository.GetAllAsync(
+        var rooms = await repository.GetAllAsync(
             page,
             pageSize,
             cancellationToken);
+
+        var totalCount = await repository.CountAsync();
+
+        return new PagedResponse<RoomResponseDto>
+        {
+            Items = mapper.Map<List<RoomResponseDto>>(rooms),
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount,
+            TotalPages = (int)Math.Ceiling(
+                totalCount / (double)pageSize)
+        };
     }
 
     public async Task<bool> UpdateRoomPrice(int id, decimal newPrice)
