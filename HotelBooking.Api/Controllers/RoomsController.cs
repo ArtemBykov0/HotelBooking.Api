@@ -18,15 +18,17 @@ public class RoomsController(
 
     [HttpGet]
     public async Task<ActionResult<PagedResponse<RoomResponseDto>>> GetRooms(
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10,
-        [FromQuery] string? sortBy = null,
+        int page = 1,
+        int pageSize = 10,
+        string? sortBy = null,
+        string? roomClass = null,
         CancellationToken cancellationToken = default)
     {
         var result = await roomService.GetRooms(
             page,
             pageSize,
             sortBy,
+            roomClass,
             cancellationToken);
 
         return Ok(result);

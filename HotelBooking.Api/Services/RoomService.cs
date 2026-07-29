@@ -54,12 +54,14 @@ public class RoomService : IRoomService
         int page,
         int pageSize,
         string? sortBy,
+        string? roomClass,
         CancellationToken cancellationToken)
     {
         var rooms = await repository.GetAllAsync(
             page,
             pageSize,
             sortBy,
+            roomClass,
             cancellationToken);
 
         var totalCount = await repository.CountAsync();

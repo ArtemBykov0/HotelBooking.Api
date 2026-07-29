@@ -17,10 +17,18 @@ public class RoomRepository : IRoomRepository
         int page,
         int pageSize,
         string? sortBy,
+        string? roomClass,
         CancellationToken cancellationToken)
     {
         var query = context.Rooms.AsQueryable();
 
+        // Фильтрация
+        if (!string.IsNullOrWhiteSpace(roomClass))
+        {
+            query = query.Where(r => r.RoomClass == roomClass);
+        }
+
+        // Сортировка
         if (sortBy == "price")
         {
             query = query.OrderBy(r => r.Price);
@@ -34,6 +42,7 @@ public class RoomRepository : IRoomRepository
             query = query.OrderBy(r => r.Number);
         }
 
+        // Пагинация
         return await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

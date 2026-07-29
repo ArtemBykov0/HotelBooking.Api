@@ -19,5 +19,6 @@ public interface IRoomService
         int page,
         int pageSize,
         string? sortBy,
+        string? roomClass,
         CancellationToken cancellationToken);
 }
