@@ -16,11 +16,17 @@ public class RoomsController(
     private readonly IMapper mapper = mapper;
 
     [HttpGet]
-    public async Task<ActionResult<List<RoomResponseDto>>> GetRooms()
+    public async Task<ActionResult<List<RoomResponseDto>>> GetRooms(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
-        var rooms = await roomService.GetRooms();
-        var dto =  mapper.Map<List<RoomResponseDto>>(rooms);
-        return Ok(dto);
+        var rooms = await roomService.GetRooms(
+            page,
+            pageSize,
+            cancellationToken);
+
+        return Ok(mapper.Map<List<RoomResponseDto>>(rooms));
     }
 
     [HttpGet("{id}")]

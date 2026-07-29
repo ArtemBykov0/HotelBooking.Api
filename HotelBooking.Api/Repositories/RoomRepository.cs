@@ -13,9 +13,22 @@ public class RoomRepository : IRoomRepository
         this.context = context;
     }
 
-    public async Task<List<Room>> GetAllAsync()
+    public async Task<List<Room>> GetAllAsync(
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken)
     {
-        return await context.Rooms.ToListAsync();
+        return await context.Rooms
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+    
+    public async Task<List<Room>> GetAllAsync(
+        CancellationToken cancellationToken)
+    {
+        return await context.Rooms
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Room?> GetByIdAsync(int id)

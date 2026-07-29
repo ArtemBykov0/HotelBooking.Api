@@ -42,9 +42,15 @@ public class RoomService : IRoomService
         return await repository.GetByIdAsync(id);
     }
 
-    public async Task<List<Room>> GetRooms()
+    public async Task<List<Room>> GetRooms(
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken)
     {
-        return await repository.GetAllAsync();
+        return await repository.GetAllAsync(
+            page,
+            pageSize,
+            cancellationToken);
     }
 
     public async Task<bool> UpdateRoomPrice(int id, decimal newPrice)
@@ -99,9 +105,12 @@ public class RoomService : IRoomService
             checkOut);
     }
 
-    public async Task<List<Room>> GetRoomsWithMinPrice(decimal minPrice)
+    public async Task<List<Room>> GetRoomsWithMinPrice(
+        decimal minPrice,
+        CancellationToken cancellationToken)
     {
-        var rooms = await repository.GetAllAsync();
+        var rooms = await repository.GetAllAsync(cancellationToken);
+
         return rooms
             .Where(r => r.Price >= minPrice)
             .ToList();

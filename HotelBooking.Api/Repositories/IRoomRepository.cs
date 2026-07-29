@@ -4,8 +4,11 @@ namespace HotelBooking.Api.Repositories;
 
 public interface IRoomRepository
 {
-    Task<List<Room>> GetAllAsync();
-
+    Task<List<Room>> GetAllAsync(
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken);
+    Task<List<Room>> GetAllAsync(CancellationToken cancellationToken);
     Task<Room?> GetByIdAsync(int id);
 
     Task AddAsync(Room room);
