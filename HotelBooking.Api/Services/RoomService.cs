@@ -45,14 +45,21 @@ public class RoomService : IRoomService
         return await repository.GetByIdAsync(id);
     }
 
+    public Task<PagedResponse<RoomResponseDto>> GetRooms(int page, int pageSize, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<PagedResponse<RoomResponseDto>> GetRooms(
         int page,
         int pageSize,
+        string? sortBy,
         CancellationToken cancellationToken)
     {
         var rooms = await repository.GetAllAsync(
             page,
             pageSize,
+            sortBy,
             cancellationToken);
 
         var totalCount = await repository.CountAsync();
@@ -63,8 +70,7 @@ public class RoomService : IRoomService
             Page = page,
             PageSize = pageSize,
             TotalCount = totalCount,
-            TotalPages = (int)Math.Ceiling(
-                totalCount / (double)pageSize)
+            TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
         };
     }
 

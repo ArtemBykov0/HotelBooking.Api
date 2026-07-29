@@ -16,19 +16,33 @@ public class RoomRepository : IRoomRepository
     public async Task<List<Room>> GetAllAsync(
         int page,
         int pageSize,
+        string? sortBy,
         CancellationToken cancellationToken)
     {
-        return await context.Rooms
+        var query = context.Rooms.AsQueryable();
+
+        if (sortBy == "price")
+        {
+            query = query.OrderBy(r => r.Price);
+        }
+        else if (sortBy == "price_desc")
+        {
+            query = query.OrderByDescending(r => r.Price);
+        }
+        else if (sortBy == "number")
+        {
+            query = query.OrderBy(r => r.Number);
+        }
+
+        return await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
-    
-    public async Task<List<Room>> GetAllAsync(
-        CancellationToken cancellationToken)
+
+    public async Task<int> CountAsync()
     {
-        return await context.Rooms
-            .ToListAsync(cancellationToken);
+        return await context.Rooms.CountAsync();
     }
 
     public async Task<Room?> GetByIdAsync(int id)
@@ -64,9 +78,11 @@ public class RoomRepository : IRoomRepository
                 checkOut > booking.CheckIn))
             .ToListAsync();
     }
-
-    public async Task<int> CountAsync()
+    
+    public async Task<List<Room>> GetAllAsync(
+        CancellationToken cancellationToken)
     {
-        return await context.Rooms.CountAsync();
+        return await context.Rooms
+            .ToListAsync(cancellationToken);
     }
 }

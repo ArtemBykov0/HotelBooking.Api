@@ -14,16 +14,19 @@ public class RoomsController(
 {
     private readonly IRoomService roomService = roomService;
     private readonly IMapper mapper = mapper;
+    
 
     [HttpGet]
     public async Task<ActionResult<PagedResponse<RoomResponseDto>>> GetRooms(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
+        [FromQuery] string? sortBy = null,
         CancellationToken cancellationToken = default)
     {
         var result = await roomService.GetRooms(
             page,
             pageSize,
+            sortBy,
             cancellationToken);
 
         return Ok(result);

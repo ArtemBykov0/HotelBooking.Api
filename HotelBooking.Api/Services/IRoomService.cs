@@ -15,4 +15,9 @@ public interface IRoomService
     Task<bool> UpdateRoom(int id, UpdateRoomDto dto);
     Task<List<Room>> GetAvailableRooms(DateTime checkIn, DateTime checkOut);
     Task<List<Room>> GetRoomsWithMinPrice(decimal minPrice, CancellationToken cancellationToken);
+    Task<PagedResponse<RoomResponseDto>> GetRooms(
+        int page,
+        int pageSize,
+        string? sortBy,
+        CancellationToken cancellationToken);
 }
