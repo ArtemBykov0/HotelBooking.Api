@@ -1,5 +1,6 @@
 using HotelBooking.Api.Data;
 using HotelBooking.Api.Mappings;
+using HotelBooking.Api.Middleware;
 using HotelBooking.Api.Repositories;
 using HotelBooking.Api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(typeof(RoomProfile));
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
