@@ -25,6 +25,16 @@ public class RoomsController(
         int? number = null,
         CancellationToken cancellationToken = default)
     {
+        if (page < 1)
+        {
+            return BadRequest("Page must be greater than 0.");
+        }
+
+        if (pageSize < 1)
+        {
+            return BadRequest("Page size must be greater than 0.");
+        }
+        
         var result = await roomService.GetRooms(
             page,
             pageSize,
