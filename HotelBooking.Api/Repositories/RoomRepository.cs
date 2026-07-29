@@ -18,6 +18,7 @@ public class RoomRepository : IRoomRepository
         int pageSize,
         string? sortBy,
         string? roomClass,
+        int? number,
         CancellationToken cancellationToken)
     {
         var query = context.Rooms.AsQueryable();
@@ -26,6 +27,11 @@ public class RoomRepository : IRoomRepository
         if (!string.IsNullOrWhiteSpace(roomClass))
         {
             query = query.Where(r => r.RoomClass == roomClass);
+        }
+        
+        if (number.HasValue)
+        {
+            query = query.Where(r => r.Number == number.Value);
         }
 
         // Сортировка

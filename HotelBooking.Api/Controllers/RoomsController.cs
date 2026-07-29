@@ -22,6 +22,7 @@ public class RoomsController(
         int pageSize = 10,
         string? sortBy = null,
         string? roomClass = null,
+        int? number = null,
         CancellationToken cancellationToken = default)
     {
         var result = await roomService.GetRooms(
@@ -29,6 +30,7 @@ public class RoomsController(
             pageSize,
             sortBy,
             roomClass,
+            number,
             cancellationToken);
 
         return Ok(result);

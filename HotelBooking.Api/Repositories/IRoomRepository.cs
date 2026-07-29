@@ -9,6 +9,7 @@ public interface IRoomRepository
         int pageSize,
         string? sortBy,
         string? roomClass,
+        int? number,
         CancellationToken cancellationToken);
 
     Task<List<Room>> GetAllAsync(
