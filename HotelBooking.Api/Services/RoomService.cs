@@ -7,17 +7,33 @@ namespace HotelBooking.Api.Services;
 public class RoomService : IRoomService
 {
     private readonly IRoomRepository repository;    
-    public RoomService(IRoomRepository repository)
+    private readonly ILogger<RoomService> logger;
+    
+    public RoomService(
+        IRoomRepository repository,
+        ILogger<RoomService> logger)
     {
         this.repository = repository;
+        this.logger = logger;
     }
 
     public async Task<bool> AddRoom(Room room)
     {
         if (room.Price <= 0)
+        {
+            logger.LogWarning(
+                "Attempt to create room with invalid price: {Price}",
+                room.Price);
+            
             return false;
+        }
 
         await repository.AddAsync(room);
+        
+        logger.LogInformation(
+            "Room {RoomNumber} created successfully",
+            room.Number);
+        
         return true;
     }
 
