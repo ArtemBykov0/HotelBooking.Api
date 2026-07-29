@@ -7,10 +7,14 @@ namespace HotelBooking.Api.Services;
 public class BookingService : IBookingService
 {
     private readonly IBookingRepository repository;
+    private readonly ILogger<BookingService> logger;
 
-    public BookingService(IBookingRepository repository)
+    public BookingService(
+        IBookingRepository repository,
+        ILogger<BookingService> logger)
     {
         this.repository = repository;
+        this.logger = logger;
     }
     
     public async Task<bool> CreateBooking(Booking booking)
@@ -21,9 +25,21 @@ public class BookingService : IBookingService
             booking.CheckOut);
 
         if (isBooked)
+        {
+            logger.LogWarning(
+                "Attempt to book occupied room {RoomId}",
+                booking.RoomId);
+            
             return false;
+        }
 
         await repository.AddAsync(booking);
+        
+        logger.LogInformation(
+            "Booking created. RoomId: {RoomId}, CheckIn: {CheckIn}, CheckOut: {CheckOut}",
+            booking.RoomId,
+            booking.CheckIn,
+            booking.CheckOut);
 
         return true;
     }
@@ -46,6 +62,10 @@ public class BookingService : IBookingService
             return false;
 
         await repository.DeleteAsync(booking);
+        
+        logger.LogInformation(
+            "Booking {BookingId} deleted",
+            id);
 
         return true;
     }
