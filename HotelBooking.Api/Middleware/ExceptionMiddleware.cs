@@ -5,10 +5,14 @@ namespace HotelBooking.Api.Middleware;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate next;
+    private readonly ILogger<ExceptionMiddleware> logger;
 
-    public ExceptionMiddleware(RequestDelegate next)
+    public ExceptionMiddleware(
+        RequestDelegate next,
+        ILogger<ExceptionMiddleware> logger)
     {
         this.next = next;
+        this.logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -17,8 +21,11 @@ public class ExceptionMiddleware
         {
             await next(context);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logger.LogError(ex,
+                "Unhandled exception occurred.");
+
             context.Response.StatusCode = 500;
             context.Response.ContentType = "application/json";
 
