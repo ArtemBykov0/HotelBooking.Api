@@ -13,4 +13,8 @@ public interface IRoomRepository
     Task UpdateAsync();
 
     Task DeleteAsync(Room room);
+    
+    Task<List<Room>> GetAvailableRoomsAsync(
+        DateTime checkIn,
+        DateTime checkOut);
 }

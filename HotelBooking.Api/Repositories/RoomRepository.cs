@@ -39,4 +39,16 @@ public class RoomRepository : IRoomRepository
         context.Rooms.Remove(room);
         await context.SaveChangesAsync();
     }
+
+    public async Task<List<Room>> GetAvailableRoomsAsync(
+        DateTime checkIn,
+        DateTime checkOut)
+    {
+        return await context.Rooms
+            .Include(r => r.Bookings)
+            .Where(room => !room.Bookings.Any(booking =>
+                checkIn < booking.CheckOut &&
+                checkOut > booking.CheckIn))
+            .ToListAsync();
+    }
 }

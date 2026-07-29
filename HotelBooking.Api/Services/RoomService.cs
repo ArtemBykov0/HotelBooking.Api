@@ -74,6 +74,15 @@ public class RoomService : IRoomService
         return true;
     }
 
+    public async Task<List<Room>> GetAvailableRooms(
+        DateTime checkIn,
+        DateTime checkOut)
+    {
+        return await repository.GetAvailableRoomsAsync(
+            checkIn,
+            checkOut);
+    }
+
     public async Task<List<Room>> GetRoomsWithMinPrice(decimal minPrice)
     {
         var rooms = await repository.GetAllAsync();

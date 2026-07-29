@@ -60,4 +60,18 @@ public class RoomsController(
 
         return NoContent();
     }
+    
+    [HttpGet("available")]
+    public async Task<ActionResult<List<RoomResponseDto>>> GetAvailableRooms(
+        DateTime checkIn,
+        DateTime checkOut)
+    {
+        var rooms = await roomService.GetAvailableRooms(
+            checkIn,
+            checkOut);
+
+        var dto = mapper.Map<List<RoomResponseDto>>(rooms);
+
+        return Ok(dto);
+    }
 }
