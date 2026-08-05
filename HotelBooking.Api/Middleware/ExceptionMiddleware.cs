@@ -24,14 +24,14 @@ public class ExceptionMiddleware
         catch (Exception ex)
         {
             logger.LogError(ex,
-                "Unhandled exception occurred.");
+                "Unhandled exception");
 
             context.Response.StatusCode = 500;
             context.Response.ContentType = "application/json";
 
             var response = new
             {
-                Message = "Internal server error"
+                Message = "An unexpected error occurred."
             };
 
             await context.Response.WriteAsync(
